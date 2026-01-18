@@ -1,0 +1,38 @@
+# Java / Maven
+target/
+*.class
+*.jar
+*.war
+*.log
+*.tmp
+
+# React / Node
+node_modules/
+build/
+dist/
+.npm/
+
+# IDE
+.idea/
+*.iml
+.vscode/settings.json
+*.swp
+*.swo
+
+# Environment files (IMPORTANT: never commit secrets!)
+.env
+*.env
+.env.local
+.env.*.local
+
+# Uploads folder (user uploaded files)
+uploads/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*

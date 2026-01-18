@@ -1,0 +1,264 @@
+:root {
+  /* Light Theme (Darker & More Readable) */
+  --primary-color: #4f46e5;
+  --primary-rgb: 79, 70, 229;
+  /* Deep Indigo */
+  --primary-hover: #3730a3;
+  /* Even Darker Indigo */
+  --secondary-color: #334155;
+  /* Dark Slate */
+  --bg-color: #e2e8f0;
+  /* Darker grey background */
+  --surface-color: #f1f5f9;
+  /* Light grey surfaces */
+  --text-main: #020617;
+  /* Near black for maximum contrast */
+  --text-dim: #475569;
+  /* Darker slate for secondary text */
+  --border-color: #cbd5e1;
+  /* Visible grey borders */
+  --success-color: #059669;
+  --warning-color: #d97706;
+  --danger-color: #dc2626;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme='dark'] {
+  /* Dark Theme (Deep & Premium) */
+  --primary-color: #6366f1;
+  --primary-rgb: 99, 102, 241;
+  /* Vivid Indigo */
+  --primary-hover: #818cf8;
+  --secondary-color: #64748b;
+  --bg-color: #020617;
+  /* Near black */
+  --surface-color: #0f172a;
+  /* Very dark slate */
+  --text-main: #f8fafc;
+  /* Pure white text */
+  --text-dim: #94a3b8;
+  /* Visible grey text */
+  --border-color: #1e293b;
+  /* Dark borders */
+  --success-color: #22c55e;
+  --warning-color: #eab308;
+  --danger-color: #ef4444;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.7);
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  transition: background-color 0.2s ease, color 0.2s ease;
+  min-height: 100vh;
+}
+
+/* Modern Card Styles */
+.card {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.input-field {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(15, 98, 254, 0.2);
+}
+
+/* Button Styles */
+/* Button Styles */
+/* Button Styles */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  border: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-decoration: none !important;
+  z-index: 1;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 4px 6px rgba(15, 98, 254, 0.2);
+}
+
+/* Fill effect element */
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--primary-hover);
+  transition: width 0.4s ease-in-out;
+  z-index: -1;
+}
+
+.btn-primary:hover::before {
+  width: 100%;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(15, 98, 254, 0.3);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  z-index: 1;
+}
+
+.btn-secondary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease-in-out;
+  z-index: -1;
+}
+
+.btn-secondary:hover::before {
+  width: 100%;
+}
+
+.btn-secondary:hover {
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Override for buttons that are links */
+a.btn:hover {
+  text-decoration: none;
+}
+
+/* Helpers */
+.text-center {
+  text-align: center;
+}
+
+.text-dim {
+  color: var(--text-dim);
+}
+
+.w-100 {
+  width: 100%;
+}
+
+/* Toggle - Hidden because it's now in navbar */
+.theme-toggle {
+  display: none !important;
+}
+
+/* Global Modal Close Button - High Visibility */
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-size: 1.75rem;
+  line-height: 1;
+  background: white !important;
+  /* Always white circle/bg */
+  border: 2px solid #ddd;
+  border-radius: 50% !important;
+  width: 32px;
+  height: 32px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  color: #333 !important;
+  /* Always dark icon */
+  cursor: pointer;
+  z-index: 1010;
+  padding: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.2s ease;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+[data-theme='dark'] .modal-close {
+  background: #444 !important;
+  color: white !important;
+  border-color: #666;
+}
+
+.modal-close:hover {
+  transform: scale(1.1);
+  color: #d32f2f !important;
+  /* Red hover for clarity */
+  border-color: #d32f2f !important;
+}
+
+.modal-header .modal-close {
+  /* Reset relative positioning if inside header flex */
+  position: static;
+  box-shadow: none !important;
+  width: auto;
+  height: auto;
+  border: none;
+  background: transparent !important;
+  font-size: 2rem;
+  border-radius: 0 !important;
+}
+
+[data-theme='dark'] .modal-header .modal-close {
+  background: transparent !important;
+}

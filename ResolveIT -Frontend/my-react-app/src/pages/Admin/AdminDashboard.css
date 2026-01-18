@@ -1,0 +1,1302 @@
+/* Admin Dashboard Styles */
+
+.admin-dashboard {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--bg-color) 0%, color-mix(in srgb, var(--bg-color) 90%, var(--primary-color)) 100%);
+    color: var(--text-main);
+    padding-bottom: 2rem;
+    padding-top: 80px;
+}
+
+/* Admin Toolbar (not a navbar, just a toolbar) */
+.admin-header {
+    background: transparent;
+    border-bottom: none;
+    padding: 0.75rem 2rem;
+    position: relative;
+    z-index: 10;
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-title h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.admin-badge {
+    background: var(--border-color);
+    color: var(--text-main);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-logout {
+    background: rgba(255, 107, 107, 0.2);
+    border: 1px solid rgba(255, 107, 107, 0.5);
+    color: #ff6b6b;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background: rgba(255, 107, 107, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Error Banner */
+.error-banner {
+    background: rgba(255, 107, 107, 0.2);
+    border: 1px solid rgba(255, 107, 107, 0.5);
+    color: #ff6b6b;
+    padding: 1rem;
+    margin: 1rem 2rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Statistics Section */
+.stats-section {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.stat-card {
+    background: var(--surface-color);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.stat-card.total {
+    border-left: 4px solid #60a5fa;
+}
+
+.stat-card.new {
+    border-left: 4px solid #fbbf24;
+}
+
+.stat-card.review {
+    border-left: 4px solid #f97316;
+}
+
+.stat-card.resolved {
+    border-left: 4px solid #34d399;
+}
+
+.stat-icon {
+    font-size: 2rem;
+}
+
+.stat-info h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.stat-info p {
+    color: var(--text-dim);
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Filter Section */
+.filter-section {
+    max-width: 1400px;
+    margin: 0 auto 1.5rem;
+    padding: 0 2rem;
+}
+
+.filter-tabs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.filter-tab {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-dim);
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.filter-tab:hover {
+    border-color: var(--primary-color);
+    color: var(--text-main);
+}
+
+.filter-tab.active {
+    background: var(--primary-color);
+    border-color: transparent;
+    color: #fff;
+}
+
+/* Grievances Table */
+.grievances-section {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.table-container {
+    background: var(--surface-color);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    overflow-x: auto;
+    box-shadow: var(--shadow-md);
+}
+
+.grievances-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.grievances-table th,
+.grievances-table td {
+    padding: 0.75rem 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+    white-space: nowrap;
+    height: 50px;
+    /* Fixed height for consistent rows */
+}
+
+.grievances-table th {
+    background: var(--bg-color);
+    color: var(--text-dim);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    height: 45px;
+}
+
+.grievances-table tbody tr {
+    transition: all 0.2s ease;
+    height: 55px;
+    /* Consistent row height */
+}
+
+.grievances-table tbody tr:hover {
+    background: var(--bg-color);
+}
+
+/* Actions cell with inline buttons - use table-cell layout */
+.grievances-table td:last-child {
+    min-width: 200px;
+}
+
+/* Keep buttons inline without breaking table cell */
+.grievances-table td.actions-cell {
+    white-space: nowrap;
+}
+
+.grievances-table td.actions-cell>button,
+.grievances-table td.actions-cell>a {
+    display: inline-block;
+    margin-right: 0.4rem;
+    vertical-align: middle;
+}
+
+/* Compact action buttons */
+.action-btn {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.id-cell {
+    font-family: monospace;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.title-cell {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.anon-badge {
+    font-size: 0.8rem;
+}
+
+.category-tag {
+    background: var(--primary-color);
+    color: #ffffff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.priority-tag {
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.priority-tag.priority-low {
+    background: #16a34a;
+    color: #ffffff;
+}
+
+.priority-tag.priority-medium {
+    background: #ca8a04;
+    color: #ffffff;
+}
+
+.priority-tag.priority-high {
+    background: #ea580c;
+    color: #ffffff;
+}
+
+.priority-tag.priority-critical {
+    background: #dc2626;
+    color: #ffffff;
+}
+
+.status-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-badge.new {
+    background: #eab308;
+    color: #ffffff;
+}
+
+.status-badge.under_review {
+    background: #f97316;
+    color: #ffffff;
+}
+
+.status-badge.resolved {
+    background: #22c55e;
+    color: #ffffff;
+}
+
+.status-badge.closed {
+    background: #6b7280;
+    color: #ffffff;
+}
+
+.escalation-badge {
+    display: inline-block;
+    margin-left: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: #dc2626;
+    color: #ffffff;
+    border: none;
+    animation: pulse-escalation 2s infinite;
+}
+
+@keyframes pulse-escalation {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px rgba(255, 107, 107, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 15px rgba(255, 107, 107, 0.6);
+    }
+}
+
+.escalation-cell {
+    text-align: center;
+}
+
+.no-escalation {
+    color: var(--text-dim);
+    font-size: 1.2rem;
+}
+
+.date-cell {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+}
+
+.comment-cell {
+    max-width: 180px;
+}
+
+.admin-comment {
+    background: rgba(0, 217, 255, 0.1);
+    color: #00d9ff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: help;
+}
+
+.no-comment {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-action {
+    background: #3b82f6;
+    border: none;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.btn-action:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+}
+
+.no-data {
+    text-align: center;
+    color: var(--text-dim);
+    padding: 3rem !important;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    color: var(--text-main);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding-bottom: 0;
+    /* Removing padding from container as footer has it */
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.modal-close:hover {
+    opacity: 1;
+}
+
+.modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.grievance-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-main);
+}
+
+.admin-form-group {
+    margin-bottom: 1.25rem;
+}
+
+.admin-form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.admin-input-field {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    color: var(--text-main);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.admin-input-field::placeholder {
+    color: var(--text-dim);
+}
+
+.admin-input-field:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.admin-input-field option {
+    background: var(--surface-color);
+    color: var(--text-main);
+}
+
+textarea.admin-input-field {
+    resize: vertical;
+    min-height: 80px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.modal-footer {
+    /* Handled by common footer styling at bottom of file */
+    display: none;
+    /* Temporarily hide if duplicate, but better to remove styles and rely on common class */
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+}
+
+.btn-secondary:hover {
+    background: var(--surface-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+    border: none;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+}
+
+/* Loading */
+.loading-spinner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-size: 1.25rem;
+    color: var(--text-dim);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-header {
+        padding: 1rem;
+    }
+
+    .header-title h1 {
+        font-size: 1.25rem;
+    }
+
+    .stats-section,
+    .filter-section,
+    .grievances-section {
+        padding: 0 1rem;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .grievances-table {
+        min-width: 800px;
+    }
+}
+
+/* Admin Comment View Modal & Button */
+.admin-comment-btn {
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: var(--text-main);
+    cursor: pointer;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    text-align: left;
+    transition: all 0.2s ease;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.admin-comment-btn:hover {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+    transform: translateY(-1px);
+}
+
+/* Status Update Modal */
+.status-update-modal {
+    max-width: 520px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(138, 43, 226, 0.15);
+}
+
+.status-update-modal .modal-header {
+    background: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.status-update-modal .modal-header h3 {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-update-modal .modal-header h3::before {
+    content: '⚡';
+}
+
+.status-update-modal .grievance-title {
+    background: var(--bg-color);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 3px solid var(--primary-color);
+    color: var(--text-main);
+}
+
+.status-update-modal .admin-input-field {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+}
+
+.status-update-modal .admin-input-field:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.status-update-modal .btn-primary {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.status-update-modal .btn-primary:hover {
+    background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+}
+
+.comment-view-modal {
+    max-width: 550px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 217, 255, 0.15);
+}
+
+/* Details Modal */
+.details-modal {
+    max-width: 700px;
+    width: 90%;
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+.details-modal .modal-header {
+    border-radius: 16px 16px 0 0;
+}
+
+.details-modal .modal-body {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.details-modal .modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.details-modal .modal-body::-webkit-scrollbar-track {
+    background: var(--bg-color);
+    border-radius: 4px;
+}
+
+.details-modal .modal-body::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+.details-modal .modal-body::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-hover);
+}
+
+.details-modal .modal-footer {
+    border-radius: 0 0 16px 16px;
+}
+
+/* Details Modal Content Styling */
+.details-modal .modal-header {
+    background: var(--surface-color) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.details-modal .modal-header h3 {
+    color: var(--primary-color) !important;
+}
+
+.details-modal .modal-body {
+    background: var(--surface-color);
+}
+
+.details-modal .modal-body label {
+    color: var(--text-dim) !important;
+}
+
+.details-modal .modal-body h4,
+.details-modal .modal-body p,
+.details-modal .modal-body span:not(.category-tag):not(.priority-tag):not(.status-badge) {
+    color: var(--text-main) !important;
+}
+
+.details-modal .modal-body div[style*="border-bottom"] {
+    border-color: var(--border-color) !important;
+}
+
+.details-modal .modal-body div[style*="background: rgba"] {
+    background: var(--bg-color) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-main) !important;
+}
+
+.comment-view-modal .modal-header {
+    background: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.comment-view-modal .modal-header h3 {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.comment-view-modal .modal-header h3::before {
+    content: '💬';
+}
+
+.full-comment-box {
+    background: var(--bg-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: 1rem;
+    border: 1px solid var(--border-color);
+    max-height: 350px;
+    overflow-y: auto;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-main);
+    white-space: pre-wrap;
+    box-shadow: var(--shadow-sm);
+}
+
+.full-comment-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.full-comment-box::-webkit-scrollbar-track {
+    background: var(--surface-color);
+    border-radius: 3px;
+}
+
+.full-comment-box::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+}
+
+.full-comment-box::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-hover);
+}
+
+.comment-context {
+    margin-bottom: 0.75rem;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.comment-context strong {
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Common Modal Footer Styling */
+.modal-actions,
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-color);
+    flex-shrink: 0;
+    margin-top: 0;
+    border-radius: 0 0 16px 16px;
+}
+
+/* Ensure modal content removes old padding bottom */
+.modal-body {
+    padding: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.modal-content {
+    padding-bottom: 0;
+}
+
+.modal-btn,
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    border: none;
+}
+
+.modal-btn.primary,
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.modal-btn.primary:hover,
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-btn.primary:disabled,
+.btn-primary:disabled {
+    background: var(--border-color);
+    color: var(--text-dim);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.modal-btn.secondary,
+.btn-secondary {
+    background: var(--surface-color);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+
+.modal-btn.secondary:hover,
+.btn-secondary:hover {
+    background: var(--bg-color);
+    border-color: var(--primary-color);
+}
+
+/* Assign Modal Specific Overrides */
+.assign-modal .modal-actions,
+.assign-modal .modal-footer {
+    background: transparent;
+    border-top: none;
+}
+
+.assign-modal .modal-body {
+    overflow: visible;
+    flex-grow: 0;
+    height: auto;
+}
+
+.assign-modal .modal-body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Main Tabs for Complaints/Reports */
+.main-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    background: var(--surface-color);
+    padding: 0.5rem;
+    border-radius: 12px;
+    width: fit-content;
+    border: 1px solid var(--border-color);
+}
+
+.main-tab {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.main-tab:hover {
+    color: var(--text-main);
+    background: var(--surface-color);
+}
+
+.main-tab.active {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #8b5cf6 100%);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+/* ==================== RESPONSIVE STYLES ==================== */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+    .admin-dashboard {
+        padding-top: 70px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .filter-tabs {
+        flex-wrap: wrap;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .grievance-table {
+        min-width: 800px;
+    }
+
+    .modal-content {
+        width: 95%;
+        max-width: 600px;
+    }
+}
+
+/* Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+    .admin-dashboard {
+        padding-top: 65px;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .stat-card {
+        padding: 1rem;
+    }
+
+    .stat-card .stat-value {
+        font-size: 1.5rem;
+    }
+
+    .filter-tabs {
+        gap: 0.25rem;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+    }
+
+    .filter-tab {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    .main-tabs {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .main-tab {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .table-container {
+        margin: 0 -0.5rem;
+        border-radius: 0;
+    }
+
+    .grievance-table th,
+    .grievance-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .modal-content {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        border-radius: 0;
+        min-height: 100vh;
+    }
+
+    .modal-header {
+        padding: 1rem;
+    }
+
+    .modal-body {
+        padding: 1rem;
+    }
+
+    .modal-footer,
+    .modal-actions {
+        padding: 1rem;
+        flex-direction: column;
+    }
+
+    .modal-footer .btn,
+    .modal-actions .btn {
+        width: 100%;
+    }
+
+    .details-modal {
+        max-width: 100%;
+    }
+}
+
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .admin-dashboard {
+        padding-top: 60px;
+    }
+
+    .filter-tabs {
+        justify-content: flex-start;
+    }
+
+    .main-tabs {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .main-tab {
+        width: 100%;
+        text-align: center;
+    }
+
+    .grievance-table {
+        min-width: 600px;
+    }
+
+    .category-tag,
+    .priority-tag,
+    .status-badge {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
+    }
+
+    .action-btn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* Staff Applications Section */
+.applications-section {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.applications-section h2 {
+    color: var(--text-main);
+    margin-bottom: 1.5rem;
+}
+
+.no-applications {
+    background: var(--surface-color);
+    border-radius: 12px;
+    padding: 3rem;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.no-applications p {
+    color: var(--text-dim);
+    font-size: 1.1rem;
+}
+
+.applications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.application-card {
+    background: var(--surface-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.application-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-md);
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.app-info h4 {
+    color: var(--text-main);
+    margin: 0 0 0.25rem 0;
+}
+
+.app-email {
+    color: var(--text-dim);
+    font-size: 0.875rem;
+}
+
+.app-score {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+
+.app-score.passing {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.app-score.failing {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+
+.score-percent {
+    font-size: 0.875rem;
+    margin-left: 0.25rem;
+}
+
+.app-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    color: var(--text-dim);
+}
+
+.pass-status.pass {
+    color: #10b981;
+}
+
+.pass-status.fail {
+    color: #f59e0b;
+}
+
+.app-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.btn-approve,
+.btn-reject {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-approve {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+
+.btn-approve:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-reject {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.btn-reject:hover {
+    background: rgba(239, 68, 68, 0.2);
+}

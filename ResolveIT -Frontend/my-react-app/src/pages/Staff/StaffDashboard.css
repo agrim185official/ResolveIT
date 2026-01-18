@@ -1,0 +1,237 @@
+.staff-dashboard {
+    min-height: 100vh;
+    background: var(--bg-color);
+    color: var(--text-main);
+    padding: 2rem;
+    margin-top: 60px;
+}
+
+.staff-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.staff-header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+}
+
+.staff-header p {
+    color: var(--text-dim);
+    font-size: 1rem;
+}
+
+.staff-dashboard .btn-logout {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.staff-dashboard .btn-logout:hover {
+    background: #dc2626;
+}
+
+.staff-dashboard .error-banner {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.complaints-section {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.complaints-section h2 {
+    color: var(--text-main);
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.loading-text,
+.empty-text {
+    color: var(--text-dim);
+    text-align: center;
+    padding: 2rem;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.staff-dashboard .complaints-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.staff-dashboard .complaints-table th,
+.staff-dashboard .complaints-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.staff-dashboard .complaints-table th {
+    background: var(--bg-color);
+    color: var(--text-dim);
+    font-weight: 600;
+}
+
+.staff-dashboard .complaints-table tbody tr:hover {
+    background: var(--bg-color);
+}
+
+.id-cell {
+    font-family: monospace;
+    color: var(--primary-color);
+}
+
+.title-cell {
+    font-weight: 500;
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.category-cell {
+    color: var(--text-dim);
+}
+
+.date-cell {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+}
+
+/* Status badges */
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status-badge.new {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.status-badge.under-review {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.status-badge.resolved {
+    background: #d1fae5;
+    color: #047857;
+}
+
+.status-badge.closed {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+/* Action button */
+.btn-resolve {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.btn-resolve:hover {
+    background: #059669;
+}
+
+.btn-resolve:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.no-action {
+    color: var(--text-dim);
+}
+
+/* ==================== RESPONSIVE STYLES ==================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .staff-dashboard {
+        padding: 1.5rem;
+        margin-top: 65px;
+    }
+
+    .complaint-table {
+        min-width: 700px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .staff-dashboard {
+        padding: 1rem;
+        margin-top: 60px;
+    }
+
+    .staff-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .staff-header p {
+        font-size: 0.9rem;
+    }
+
+    .complaint-table th,
+    .complaint-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .status-badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .action-btn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+    .staff-dashboard {
+        padding: 0.75rem;
+    }
+
+    .complaint-table {
+        min-width: 500px;
+    }
+}

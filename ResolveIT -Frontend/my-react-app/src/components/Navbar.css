@@ -1,0 +1,330 @@
+/* Reset for full-width navbar - no gap on edges */
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* ==================== FULL WIDTH NAVBAR ==================== */
+.navbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 80px;
+    z-index: 1000;
+    background: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.navbar-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    box-sizing: border-box;
+}
+
+/* Logo - LEFT */
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    padding-left: 3rem;
+}
+
+.logo-icon {
+    font-size: 1.6rem;
+}
+
+.logo-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+/* Navigation Links - RIGHT */
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Regular Link */
+.nav-link {
+    text-decoration: none;
+    color: var(--text-dim);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0.5rem 0;
+}
+
+.nav-link:hover {
+    color: var(--text-main);
+}
+
+.nav-link.active {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Sign In */
+.nav-link.sign-in {
+    color: var(--text-dim);
+}
+
+.nav-link.sign-in:hover {
+    color: var(--primary-color);
+}
+
+/* Get Started Button */
+.nav-link.btn-get-started {
+    background: var(--primary-color);
+    color: #fff !important;
+    padding: 0.6rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.nav-link.btn-get-started:hover {
+    background: var(--primary-hover);
+    color: #fff !important;
+}
+
+/* Dashboard Button */
+.nav-link.btn-dashboard {
+    background: var(--success-color) !important;
+    color: #fff !important;
+    padding: 0.6rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.nav-link.btn-dashboard:hover {
+    background: #059669 !important;
+    color: #fff !important;
+}
+
+.nav-link.btn-dashboard.active {
+    background: var(--success-color) !important;
+    color: #fff !important;
+}
+
+/* Logout Button */
+.nav-link.btn-logout {
+    background: var(--danger-color);
+    color: #fff;
+    padding: 0.6rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.nav-link.btn-logout:hover {
+    opacity: 0.9;
+}
+
+/* Reset Data Button (Admin) */
+.nav-link.btn-reset {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.nav-link.btn-reset:hover {
+    background: var(--danger-color);
+    color: #fff;
+}
+
+/* Theme Toggle Button */
+.nav-link.theme-btn {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.nav-link.theme-btn:hover {
+    background: var(--border-color);
+    transform: scale(1.1);
+}
+
+/* Notification Bell (Admin) */
+.notification-wrapper {
+    position: relative;
+}
+
+.nav-link.notification-bell {
+    font-size: 1.2rem;
+    padding: 0.4rem 0.6rem;
+    position: relative;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--danger-color);
+    color: #fff;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Notification Dropdown */
+.notification-dropdown {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    width: 320px;
+    max-height: 400px;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    z-index: 1001;
+    overflow: hidden;
+}
+
+.notification-header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-header h4 {
+    margin: 0;
+    color: var(--primary-color);
+    font-size: 0.95rem;
+}
+
+.mark-read-btn {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.mark-read-btn:hover {
+    color: var(--primary-color);
+}
+
+.notification-list {
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+.no-notifications {
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-dim);
+}
+
+.notification-item {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.notification-item:hover {
+    background: var(--bg-color);
+}
+
+.notification-item.unread {
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.notif-icon {
+    font-size: 1.25rem;
+}
+
+.notif-content {
+    flex: 1;
+}
+
+.notif-content p {
+    margin: 0 0 0.25rem;
+    color: var(--text-main);
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.notif-time {
+    color: var(--text-dim);
+    font-size: 0.75rem;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+    .navbar-container {
+        padding: 0 1rem;
+    }
+
+    .navbar-links {
+        gap: 1rem;
+    }
+
+    .nav-link {
+        font-size: 0.9rem;
+    }
+
+    .nav-link.btn-get-started,
+    .nav-link.btn-dashboard,
+    .nav-link.btn-logout,
+    .nav-link.btn-reset {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    .logo-text {
+        display: none;
+    }
+
+    .notification-dropdown {
+        width: 280px;
+        right: -50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-link:not(.btn-get-started):not(.btn-dashboard):not(.btn-logout):not(.sign-in):not(.notification-bell):not(.btn-reset) {
+        display: none;
+    }
+}
