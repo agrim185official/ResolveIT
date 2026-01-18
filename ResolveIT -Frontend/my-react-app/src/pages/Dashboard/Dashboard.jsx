@@ -159,10 +159,7 @@ const Dashboard = () => {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        navigate('/login');
-    };
+    // NOTE: handleLogout removed - logout handled in Navbar component
     const viewTimeline = async (complaintId) => {
         setTimelineModal({ open: true, complaintId, timeline: [], loading: true });
         try {

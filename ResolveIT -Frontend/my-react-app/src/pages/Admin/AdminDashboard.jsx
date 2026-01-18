@@ -3,9 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import {
     fetchAllGrievances,
     updateGrievanceStatusWithComment,
-    getUnreadNotificationCount,
-    resetComplaintsData,
-    getAttachmentDownloadUrl,
     getPendingStaffApplications,
     approveStaffApplication,
     rejectStaffApplication,
@@ -149,30 +146,7 @@ const AdminDashboard = () => {
         }
     }, [activeTab]);
 
-    const handleResetData = async () => {
-        if (window.confirm('⚠️ WARNING: This will delete ALL timeline history, REMOVE ALL STAFF ASSIGNMENTS, and reset serial numbers for a fresh start. This action cannot be undone.\n\nAre you sure you want to proceed?')) {
-            try {
-                setLoading(true);
-                await resetComplaintsData();
-
-                // Force clear state first
-                setGrievances([]);
-
-                // Fetch fresh data
-                await loadGrievances();
-
-                alert('System has been reset successfully. All timelines cleared, staff assignments removed, and numbers re-serialized.');
-
-                // Optional: Force reload to ensure absolutely clean state
-                window.location.reload();
-            } catch (err) {
-                console.error('Failed to reset data:', err);
-                alert('Failed to reset data. Please assume server error.');
-            } finally {
-                setLoading(false);
-            }
-        }
-    };
+    // NOTE: handleResetData removed - Reset Data button is hidden
 
 
 
@@ -205,11 +179,7 @@ const AdminDashboard = () => {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('userRole');
-        navigate('/login');
-    };
+    // NOTE: handleLogout removed - logout handled in Navbar component
 
     // View attachment using API endpoint (inline)
     const handleDownload = (fileName) => {
@@ -231,32 +201,7 @@ const AdminDashboard = () => {
         }
     };
 
-    const handleSingleClickUpdate = async (grievance) => {
-        const nextStatuses = getValidNextStatuses(grievance.status);
-        if (nextStatuses.length === 0) {
-            alert('This complaint is already in its final state (CLOSED).');
-            return;
-        }
-        const nextStatus = nextStatuses[0];
-
-        try {
-            setLoading(true);
-            await updateGrievanceStatusWithComment(
-                grievance.id,
-                nextStatus,
-                "" // No comment for quick update
-            );
-            await loadGrievances();
-        } catch (err) {
-            console.error('Failed to update status:', err);
-            const errorMsg = typeof err.response?.data === 'string'
-                ? err.response.data
-                : (err.response?.data?.message || err.message);
-            alert('Failed to update status: ' + errorMsg);
-        } finally {
-            setLoading(false);
-        }
-    };
+    // NOTE: handleSingleClickUpdate removed - not used, status updates done via modal
 
     const openStatusModal = (grievance, mode = 'UPDATE') => {
         let nextStatus = '';
@@ -637,7 +582,7 @@ const AdminDashboard = () => {
                             </table>
                         </div>
 
-                        {/* Reset Data Section */}
+                        {/* Reset Data Section - HIDDEN (backend endpoint still exists at /api/complaints/reset-data)
                         <div className="reset-data-section" style={{
                             marginTop: '2rem',
                             padding: '1.5rem',
@@ -680,6 +625,7 @@ const AdminDashboard = () => {
                                 🗑️ Reset All Complaints Data
                             </button>
                         </div>
+                        */}
                     </section>
 
                     {/* Status Update Modal */}
