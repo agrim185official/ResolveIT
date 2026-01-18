@@ -3,8 +3,23 @@ target/
 *.class
 *.jar
 *.war
+*.nar
+*.ear
 *.log
 *.tmp
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files
+*.zip
+*.tar.gz
+*.rar
+
+# Virtual machine crash logs
+hs_err_pid*
+replay_pid*
 
 # React / Node
 node_modules/
@@ -34,5 +49,4 @@ Thumbs.db
 
 # Logs
 logs/
-*.log
 npm-debug.log*
