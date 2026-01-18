@@ -27,6 +27,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+/**
+ * ComplaintController - REST API for Complaint/Grievance Management
+ * 
+ * This controller handles all complaint-related operations including:
+ * - CRUD operations for complaints (Create, Read, Update, Delete)
+ * - Status workflow management (NEW -> UNDER_REVIEW -> RESOLVED -> CLOSED)
+ * - Staff assignment and complaint delegation
+ * - File attachment handling
+ * - Timeline/history tracking
+ * - Manual escalation by admins
+ * 
+ * Base URL: /api/complaints
+ * 
+ * Access Control:
+ * - Users can create complaints and view their own
+ * - Staff can view and update assigned complaints
+ * - Admins have full access to all complaints
+ */
 @RestController
 @RequestMapping("/api/complaints")
 public class ComplaintController {
@@ -37,22 +55,35 @@ public class ComplaintController {
     @Autowired
     private AttachmentService attachmentService;
 
+    // ==================== READ Operations ====================
+
+    /**
+     * Get all complaints with pagination (for admin dashboard)
+     */
     @GetMapping
     public ResponseEntity<Page<ComplaintResponse>> getAllComplaints(Pageable pageable) {
         return ResponseEntity.ok(complaintService.getAllComplaints(pageable));
     }
 
-    // Simple endpoint for admin to get all complaints as list
+    /**
+     * Get all complaints as a simple list (Admin only)
+     * Used by admin dashboard for displaying all grievances
+     */
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<ComplaintResponse>> getAllComplaintsList() {
         return ResponseEntity.ok(complaintService.getAllComplaintsList());
     }
 
+    /**
+     * Get a single complaint by ID
+     */
     @GetMapping("/{id}")
     public ResponseEntity<ComplaintResponse> getComplaintById(@PathVariable Long id) {
         return ResponseEntity.ok(complaintService.getComplaintById(id));
     }
+
+    // ==================== CREATE Operations ====================
 
     @PostMapping
     public ResponseEntity<ComplaintResponse> createComplaint(

@@ -1,8 +1,30 @@
+/**
+ * API Service - Centralized HTTP client for ResolveIT Frontend
+ * 
+ * This file contains all API functions for communicating with the Spring Boot backend.
+ * Uses Axios for HTTP requests with automatic JWT token injection.
+ * 
+ * Features:
+ * - Request interceptor: Automatically attaches JWT token to all requests
+ * - Response interceptor: Auto-logout on server errors (5xx) or network failures
+ * - Error handling: Consistent error propagation for UI handling
+ * 
+ * API Categories:
+ * 1. Authentication: login, register
+ * 2. Complaints/Grievances: CRUD operations, status updates, timeline
+ * 3. Attachments: Upload and download files
+ * 4. Notifications: User and admin notifications
+ * 5. Staff: Applications, assignments, dashboard data
+ * 6. Reports: Analytics and exports (CSV/PDF)
+ * 
+ * Backend URL: http://localhost:8080/api
+ */
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api'; // Adjust based on your Java backend port
+// Backend API base URL - adjust for production deployment
+const API_BASE_URL = 'http://localhost:8080/api';
 
-// Create an Axios instance
+// Create an Axios instance with base configuration
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {

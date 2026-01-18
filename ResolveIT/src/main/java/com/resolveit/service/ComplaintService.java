@@ -17,6 +17,37 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * ComplaintService - Core Business Logic for Complaint Management
+ * 
+ * This service handles all complaint-related business operations:
+ * 
+ * 1. COMPLAINT LIFECYCLE:
+ * - Creation: Users submit complaints with title, description, category,
+ * priority
+ * - Unique complaint numbers are auto-generated (e.g., COMP-20240118-001)
+ * - Anonymous submissions are supported
+ * 
+ * 2. STATUS WORKFLOW (strict hierarchy):
+ * NEW → UNDER_REVIEW → RESOLVED → CLOSED
+ * - Only forward transitions allowed (no going back)
+ * - Each transition is logged in ComplaintUpdate for audit trail
+ * 
+ * 3. STAFF ASSIGNMENT:
+ * - Admins can assign complaints to staff members
+ * - Staff can view their assigned complaints
+ * 
+ * 4. ESCALATION:
+ * - Auto-escalation: Scheduled task escalates overdue complaints
+ * - Manual escalation: Admins can manually escalate urgent complaints
+ * 
+ * 5. NOTIFICATIONS:
+ * - Email notifications sent on status changes
+ * - In-app notifications for real-time updates
+ * 
+ * 6. DATA MANAGEMENT:
+ * - Reset functionality for clearing test data (Admin only)
+ */
 @Service
 public class ComplaintService {
 

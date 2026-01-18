@@ -5,6 +5,27 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Complaint Entity - Core data model for grievances/complaints
+ * 
+ * Database Table: complaints
+ * 
+ * Key Fields:
+ * - complaintNumber: Auto-generated unique ID (format: COMP-YYYYMMDD-XXX)
+ * - title/description: User-provided complaint details
+ * - status: Current workflow state (NEW, UNDER_REVIEW, RESOLVED, CLOSED)
+ * - category: Type of complaint (General, Technical, Billing, etc.)
+ * - priority: Urgency level (Low, Medium, High, Critical)
+ * - isAnonymous: Whether submitter identity is hidden
+ * - isEscalated: Flag indicating urgent/escalated complaint
+ * 
+ * Relationships:
+ * - createdBy: User who submitted the complaint
+ * - assignedTo: Staff member handling the complaint (nullable)
+ * - comments: Historical comments on the complaint
+ * - updates: Status change audit trail
+ * - attachments: Uploaded files (images, PDFs)
+ */
 @Entity
 @Table(name = "complaints")
 public class Complaint {

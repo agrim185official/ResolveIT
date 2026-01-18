@@ -7,11 +7,32 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
+/**
+ * ResolveIT Application - A Grievance Management System
+ * 
+ * This is the main entry point for the Spring Boot application.
+ * The application provides a complete grievance/complaint management system
+ * with:
+ * - User registration and authentication (JWT-based)
+ * - Role-based access control (ADMIN, STAFF, USER)
+ * - Complaint creation, tracking, and resolution workflow
+ * - File attachment support
+ * - Email notifications for status updates
+ * - Staff application and approval workflow
+ * 
+ * @EnableScheduling - Enables scheduled tasks (e.g., auto-escalation of overdue
+ *                   complaints)
+ * @EnableAsync - Enables asynchronous method execution (e.g., sending emails in
+ *              background)
+ */
 @SpringBootApplication
 @EnableScheduling
 @EnableAsync
 public class ResolveItApplication {
 
+    /**
+     * Application entry point - Bootstraps the Spring Boot application
+     */
     public static void main(String[] args) {
         SpringApplication.run(ResolveItApplication.class, args);
     }

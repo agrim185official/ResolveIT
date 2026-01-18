@@ -1,8 +1,51 @@
+/**
+ * Dashboard Component - User's Grievance Management Interface
+ * 
+ * This is the main dashboard for regular users (ROLE_USER).
+ * It provides a complete interface for managing personal grievances/complaints.
+ * 
+ * FEATURES:
+ * 1. CREATE GRIEVANCE:
+ *    - Form with title, description, category, priority
+ *    - File attachment support (images, PDFs)
+ *    - Anonymous submission option
+ * 
+ * 2. VIEW MY GRIEVANCES:
+ *    - List of user's submitted complaints
+ *    - Status badges (NEW, UNDER_REVIEW, RESOLVED, CLOSED)
+ *    - Priority and category tags
+ *    - Attachment display with download links
+ * 
+ * 3. GRIEVANCE ACTIONS:
+ *    - Edit: Update title, description, category, priority
+ *    - Delete: Remove grievance (with confirmation)
+ *    - Timeline: View status change history
+ *    - Upload: Add more attachments to existing grievances
+ * 
+ * 4. NOTIFICATIONS:
+ *    - Bell icon shows unread count
+ *    - Dropdown with status update notifications
+ *    - Mark as read functionality
+ * 
+ * ACCESS CONTROL:
+ * - Redirects to /login if not authenticated
+ * - Redirects to /admin if user has ROLE_ADMIN
+ * - Only shows user's own grievances (via /my-complaints API)
+ */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchGrievances, createGrievance, deleteGrievance, updateGrievance, getComplaintTimeline, uploadAttachment, getAttachmentDownloadUrl } from '../../services/api';
 import './Dashboard.css';
 
+/**
+ * STATE MANAGEMENT:
+ * - grievances: Array of user's complaints
+ * - newGrievance: Form data for creating new complaint
+ * - selectedFiles: Files to attach during creation
+ * - editModal/editData: State for edit modal
+ * - uploadModal/uploadFiles: State for attachment upload
+ * - timelineModal: State for viewing complaint history
+ */
 const Dashboard = () => {
     const [grievances, setGrievances] = useState([]);
     const [newGrievance, setNewGrievance] = useState({ title: '', description: '', category: 'General', priority: 'Medium' });
