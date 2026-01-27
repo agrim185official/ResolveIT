@@ -183,7 +183,7 @@ const AdminDashboard = () => {
 
     // View attachment using API endpoint (inline)
     const handleDownload = (fileName) => {
-        const fullUrl = `http://localhost:8081/api/public/files/${fileName}`;
+        const fullUrl = `http://localhost:8080/api/public/files/${fileName}`;
         window.open(fullUrl, '_blank');
     };
 
@@ -600,7 +600,7 @@ const AdminDashboard = () => {
                                     if (window.confirm('Are you sure you want to reset all data? This cannot be undone!')) {
                                         try {
                                             const token = localStorage.getItem('token');
-                                            await fetch('http://localhost:8081/api/complaints/reset-data', {
+                                            await fetch('http://localhost:8080/api/complaints/reset-data', {
                                                 method: 'POST',
                                                 headers: { Authorization: `Bearer ${token}` }
                                             });

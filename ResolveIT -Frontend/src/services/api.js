@@ -17,12 +17,12 @@
  * 5. Staff: Applications, assignments, dashboard data
  * 6. Reports: Analytics and exports (CSV/PDF)
  * 
- * Backend URL: http://localhost:8081/api
+ * Backend URL: http://localhost:8080/api
  */
 import axios from 'axios';
 
 // Backend API base URL - adjust for production deployment
-const API_BASE_URL = 'http://localhost:8081/api';
+const API_BASE_URL = 'http://localhost:8080/api';
 
 // Create an Axios instance with base configuration
 const apiClient = axios.create({

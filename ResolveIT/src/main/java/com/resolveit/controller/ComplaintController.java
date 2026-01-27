@@ -189,6 +189,15 @@ public class ComplaintController {
         }
     }
 
+    @GetMapping("/{id}/attachments")
+    public ResponseEntity<?> getAttachments(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(attachmentService.getAttachmentsByComplaint(id));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body(Map.of("message", e.getMessage()));
+        }
+    }
+
     // ==================== Timeline Endpoints ====================
 
     @GetMapping("/{id}/timeline")
