@@ -51,29 +51,33 @@ import java.util.stream.Collectors;
 @Service
 public class ComplaintService {
 
-    @Autowired
-    private ComplaintRepository complaintRepository;
+    private final ComplaintRepository complaintRepository;
+    private final UserRepository userRepository;
+    private final ComplaintUpdateRepository complaintUpdateRepository;
+    private final AttachmentRepository attachmentRepository;
+    private final NotificationRepository notificationRepository;
+    private final EmailService emailService;
+    private final UserNotificationRepository userNotificationRepository;
+    private final AttachmentService attachmentService;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private ComplaintUpdateRepository complaintUpdateRepository;
-
-    @Autowired
-    private AttachmentRepository attachmentRepository;
-
-    @Autowired
-    private NotificationRepository notificationRepository;
-
-    @Autowired
-    private EmailService emailService;
-
-    @Autowired
-    private UserNotificationRepository userNotificationRepository;
-
-    @Autowired
-    private AttachmentService attachmentService;
+    public ComplaintService(ComplaintRepository complaintRepository,
+                           UserRepository userRepository,
+                           ComplaintUpdateRepository complaintUpdateRepository,
+                           AttachmentRepository attachmentRepository,
+                           NotificationRepository notificationRepository,
+                           EmailService emailService,
+                           UserNotificationRepository userNotificationRepository,
+                           AttachmentService attachmentService) {
+        this.complaintRepository = complaintRepository;
+        this.userRepository = userRepository;
+        this.complaintUpdateRepository = complaintUpdateRepository;
+        this.attachmentRepository = attachmentRepository;
+        this.notificationRepository = notificationRepository;
+        this.emailService = emailService;
+        this.userNotificationRepository = userNotificationRepository;
+        this.attachmentService = attachmentService;
+    }
 
     @Transactional(readOnly = true)
     public Page<ComplaintResponse> getAllComplaints(Pageable pageable) {

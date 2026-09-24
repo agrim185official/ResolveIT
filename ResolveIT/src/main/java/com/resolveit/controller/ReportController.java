@@ -29,8 +29,12 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "http://localhost:3000")
 public class ReportController {
 
+    private final ComplaintRepository complaintRepository;
+
     @Autowired
-    private ComplaintRepository complaintRepository;
+    public ReportController(ComplaintRepository complaintRepository) {
+        this.complaintRepository = complaintRepository;
+    }
 
     // Get aggregated statistics
     @GetMapping("/stats")

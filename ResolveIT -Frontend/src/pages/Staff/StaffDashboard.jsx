@@ -17,7 +17,7 @@ const StaffDashboard = () => {
     }, []);
 
     const handleDownload = (fileName) => {
-        const fullUrl = `http://localhost:8080/api/public/files/${fileName}`;
+        const fullUrl = `http://localhost:8081/api/public/files/${fileName}`;
         window.open(fullUrl, '_blank');
     };
 

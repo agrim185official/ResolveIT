@@ -17,8 +17,12 @@ import java.util.Map;
 @RequestMapping("/api/staff-applications")
 public class StaffApplicationController {
 
+    private final StaffApplicationService applicationService;
+
     @Autowired
-    private StaffApplicationService applicationService;
+    public StaffApplicationController(StaffApplicationService applicationService) {
+        this.applicationService = applicationService;
+    }
 
     /**
      * Get test questions (for users)

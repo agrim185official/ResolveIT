@@ -18,8 +18,12 @@ import java.io.IOException;
 @RequestMapping("/api/public/files")
 public class FileController {
 
+    private final FileStorageService fileStorageService;
+
     @Autowired
-    private FileStorageService fileStorageService;
+    public FileController(FileStorageService fileStorageService) {
+        this.fileStorageService = fileStorageService;
+    }
 
     @GetMapping("/{filename:.+}")
     public ResponseEntity<Resource> serveFile(@PathVariable String filename, HttpServletRequest request) {

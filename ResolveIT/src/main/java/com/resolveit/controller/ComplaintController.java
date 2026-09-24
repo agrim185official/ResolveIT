@@ -49,11 +49,19 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api/complaints")
 public class ComplaintController {
 
-    @Autowired
-    private ComplaintService complaintService;
+    private final ComplaintService complaintService;
+    private final AttachmentService attachmentService;
+    private final NotificationRepository notificationRepository;
+    private final ComplaintRepository complaintRepository;
 
     @Autowired
-    private AttachmentService attachmentService;
+    public ComplaintController(ComplaintService complaintService, AttachmentService attachmentService,
+                               NotificationRepository notificationRepository, ComplaintRepository complaintRepository) {
+        this.complaintService = complaintService;
+        this.attachmentService = attachmentService;
+        this.notificationRepository = notificationRepository;
+        this.complaintRepository = complaintRepository;
+    }
 
     // ==================== READ Operations ====================
 
@@ -220,12 +228,6 @@ public class ComplaintController {
         List<ComplaintResponse> assigned = complaintService.getAssignedComplaints(currentUser.getId());
         return ResponseEntity.ok(assigned);
     }
-
-    @Autowired
-    private NotificationRepository notificationRepository;
-
-    @Autowired
-    private ComplaintRepository complaintRepository;
 
     @PostMapping("/{id}/report-resolved")
     @PreAuthorize("hasAuthority('ROLE_STAFF')")

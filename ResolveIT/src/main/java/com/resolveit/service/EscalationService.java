@@ -19,8 +19,12 @@ public class EscalationService {
 
     private static final Logger logger = LoggerFactory.getLogger(EscalationService.class);
 
+    private final ComplaintRepository complaintRepository;
+
     @Autowired
-    private ComplaintRepository complaintRepository;
+    public EscalationService(ComplaintRepository complaintRepository) {
+        this.complaintRepository = complaintRepository;
+    }
 
     // Escalation thresholds in days based on priority
     private int getEscalationDays(String priority) {

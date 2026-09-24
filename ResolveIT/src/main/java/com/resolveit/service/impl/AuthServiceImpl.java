@@ -6,7 +6,6 @@ import com.resolveit.model.User;
 import com.resolveit.repository.UserRepository;
 import com.resolveit.security.JwtTokenProvider;
 import com.resolveit.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,17 +16,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider tokenProvider;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private JwtTokenProvider tokenProvider;
+    public AuthServiceImpl(AuthenticationManager authenticationManager,
+                           UserRepository userRepository,
+                           PasswordEncoder passwordEncoder,
+                           JwtTokenProvider tokenProvider) {
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.tokenProvider = tokenProvider;
+    }
 
     @Override
     public String authenticateUser(LoginRequest loginRequest) {

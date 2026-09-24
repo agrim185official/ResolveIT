@@ -1,7 +1,6 @@
 package com.resolveit.security;
 
 import com.resolveit.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,13 +9,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
+        System.out.println("DEBUG: Trying to find user: " + usernameOrEmail);
         return userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
-                .orElseThrow(() -> new UsernameNotFoundException(
-                        "User not found with username or email: " + usernameOrEmail));
+                .map(user -> {
+                    System.out.println("DEBUG: Found user: " + user.getUsername());
+                    return (UserDetails) user;
+                })
+                .orElseThrow(() -> {
+                    System.out.println("DEBUG: User NOT found: " + usernameOrEmail);
+                    return new UsernameNotFoundException("User not found: " + usernameOrEmail);
+                });
     }
 }

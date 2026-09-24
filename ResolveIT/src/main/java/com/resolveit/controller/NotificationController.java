@@ -17,8 +17,12 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "http://localhost:3000")
 public class NotificationController {
 
+    private final NotificationRepository notificationRepository;
+
     @Autowired
-    private NotificationRepository notificationRepository;
+    public NotificationController(NotificationRepository notificationRepository) {
+        this.notificationRepository = notificationRepository;
+    }
 
     // Get all notifications (for admin)
     @GetMapping

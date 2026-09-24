@@ -19,14 +19,18 @@ import java.util.stream.Collectors;
 @Service
 public class AttachmentService {
 
-    @Autowired
-    private AttachmentRepository attachmentRepository;
+    private final AttachmentRepository attachmentRepository;
+    private final ComplaintRepository complaintRepository;
+    private final FileStorageService fileStorageService;
 
     @Autowired
-    private ComplaintRepository complaintRepository;
-
-    @Autowired
-    private FileStorageService fileStorageService;
+    public AttachmentService(AttachmentRepository attachmentRepository,
+                            ComplaintRepository complaintRepository,
+                            FileStorageService fileStorageService) {
+        this.attachmentRepository = attachmentRepository;
+        this.complaintRepository = complaintRepository;
+        this.fileStorageService = fileStorageService;
+    }
 
     // Allowed file types - only PDF, JPG, JPEG, MP4
     private static final List<String> ALLOWED_EXTENSIONS = Arrays.asList("pdf", "jpg", "jpeg", "mp4");

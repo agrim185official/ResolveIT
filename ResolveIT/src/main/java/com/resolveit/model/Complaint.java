@@ -11,7 +11,7 @@ import java.util.Set;
  * Database Table: complaints
  * 
  * Key Fields:
- * - complaintNumber: Auto-generated unique ID (format: COMP-YYYYMMDD-XXX)
+ * - complaintNumber: Auto-generated unique ID (format: COMP-YYYYMMDD-NNN)
  * - title/description: User-provided complaint details
  * - status: Current workflow state (NEW, UNDER_REVIEW, RESOLVED, CLOSED)
  * - category: Type of complaint (General, Technical, Billing, etc.)

@@ -14,8 +14,12 @@ public class EmailService {
 
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
-    @Autowired(required = false)
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
+
+    @Autowired
+    public EmailService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
 
     @Value("${app.email.from:noreply@resolveit.com}")
     private String fromEmail;

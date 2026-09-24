@@ -8,7 +8,6 @@ import com.resolveit.model.User;
 import com.resolveit.repository.UserRepository;
 import com.resolveit.service.AuthService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,11 +17,13 @@ import java.util.Set;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    public AuthController(AuthService authService, UserRepository userRepository) {
+        this.authService = authService;
+        this.userRepository = userRepository;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {

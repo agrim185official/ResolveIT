@@ -16,13 +16,16 @@ import java.util.*;
 @Service
 public class StaffApplicationService {
 
-    @Autowired
-    private StaffApplicationRepository applicationRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
+    private final StaffApplicationRepository applicationRepository;
+    private final UserRepository userRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Autowired
+    public StaffApplicationService(StaffApplicationRepository applicationRepository,
+                                  UserRepository userRepository) {
+        this.applicationRepository = applicationRepository;
+        this.userRepository = userRepository;
+    }
 
     // Correct answers for the test (0-indexed: 0=A, 1=B, 2=C, 3=D)
     private static final int[] CORRECT_ANSWERS = { 1, 1, 1, 2, 1, 1, 1, 1, 1, 1 };

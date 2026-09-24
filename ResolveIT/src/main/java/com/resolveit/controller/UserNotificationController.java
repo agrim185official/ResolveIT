@@ -19,11 +19,15 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserNotificationController {
 
-    @Autowired
-    private UserNotificationRepository userNotificationRepository;
+    private final UserNotificationRepository userNotificationRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    public UserNotificationController(UserNotificationRepository userNotificationRepository,
+                                     UserRepository userRepository) {
+        this.userNotificationRepository = userNotificationRepository;
+        this.userRepository = userRepository;
+    }
 
     // Get all notifications for current user
     @GetMapping
