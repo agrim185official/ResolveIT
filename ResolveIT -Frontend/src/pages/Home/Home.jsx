@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import heroImage from '../../assets/hero-image.png';
 import teamImage from '../../assets/team.png';
 import mobileImage from '../../assets/mobile.png';
+import api from '../../services/api';
 import './Home.css';
 
 const Home = () => {
   const images = [heroImage, teamImage, mobileImage];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [testimonials, setTestimonials] = useState([]);
+  const [stats, setStats] = useState({ totalFeedbacks: 0, averageRating: 0 });
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,8 +21,48 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [images.length]);
 
+  useEffect(() => {
+    // Fetch positive reviews for testimonials
+    const fetchTestimonials = async () => {
+      try {
+        const response = await api.get('/feedback/positive-reviews');
+        setTestimonials(response.data.slice(0, 3)); // Show top 3
+      } catch (error) {
+        console.error('Failed to fetch testimonials:', error);
+      }
+    };
+
+    // Fetch feedback stats
+    const fetchStats = async () => {
+      try {
+        const response = await api.get('/feedback/stats');
+        if (response && response.data) {
+          setStats(response.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch stats:', error);
+      }
+    };
+
+    fetchTestimonials();
+    fetchStats();
+  }, []);
+
   return (
     <div className="home-wrapper">
+      <Helmet>
+        <title>ResolveIT - Effortless Grievance Management System</title>
+        <meta name="description" content="ResolveIT is a modern grievance management platform that streamlines complaints, tracks resolutions, and improves user satisfaction with enterprise-grade security and analytics." />
+        <meta name="keywords" content="grievance management, complaint system, issue tracking, customer support, feedback management, enterprise software" />
+        <meta property="og:title" content="ResolveIT - Effortless Grievance Management" />
+        <meta property="og:description" content="Streamline complaints, track resolutions, and improve user satisfaction with our enterprise-grade platform." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="ResolveIT - Effortless Grievance Management" />
+        <meta name="twitter:description" content="Modern grievance management platform with enterprise-grade security and real-time analytics." />
+        <link rel="canonical" href="https://resolveit.com" />
+      </Helmet>
+
       {/* Navigation */}
       <nav className="navbar">
         <div className="logo fade-in" style={{ paddingLeft: '60px' }}>ResolveIT</div>
@@ -74,8 +118,8 @@ const Home = () => {
           <span className="stat-label">Issues Resolved</span>
         </div>
         <div className="stat-item">
-          <span className="stat-number">99%</span>
-          <span className="stat-label">Uptime Guarantee</span>
+          <span className="stat-number">{stats && stats.averageRating !== undefined ? stats.averageRating.toFixed(1) : '4.8'}/5</span>
+          <span className="stat-label">User Rating</span>
         </div>
         <div className="stat-item">
           <span className="stat-number">24/7</span>
@@ -109,10 +153,56 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      {testimonials.length > 0 && (
+        <section className="testimonials-section">
+          <div className="section-header">
+            <h2>What Our Users Say</h2>
+            <p>Real feedback from satisfied customers</p>
+          </div>
+
+          <div className="testimonials-container">
+            {testimonials.map((testimonial) => (
+              <div key={testimonial.id} className="testimonial-card hover-scale">
+                <div className="testimonial-rating">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className={i < testimonial.rating ? 'star-filled' : 'star-empty'}>
+                      ★
+                    </span>
+                  ))}
+                </div>
+                <p className="testimonial-comment">
+                  "{testimonial.comment || 'Great service! My issue was resolved quickly and professionally.'}"
+                </p>
+                <div className="testimonial-footer">
+                  <span className="testimonial-author">{testimonial.userName}</span>
+                  <span className="testimonial-complaint">Complaint #{testimonial.complaintNumber}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Call to Action */}
+      <section className="cta-section">
+        <div className="cta-content">
+          <h2>Ready to Transform Your Grievance Management?</h2>
+          <p>Join thousands of organizations managing complaints efficiently</p>
+          <Link to="/register" className="btn btn-primary btn-lg hover-lift">Get Started Free</Link>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="footer">
         <div className="footer-content">
-          <p>&copy; 2025 ResolveIT Systems. All rights reserved.</p>
+          <div className="footer-links">
+            <Link to="/login">Sign In</Link>
+            <Link to="/register">Register</Link>
+            <a href="#features">Features</a>
+            <a href="#contact">Contact</a>
+          </div>
+          <p>&copy; 2026 ResolveIT Systems. All rights reserved.</p>
         </div>
       </footer>
     </div>

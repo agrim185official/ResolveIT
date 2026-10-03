@@ -38,6 +38,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/auth/**",
+                                "/api/feedback/positive-reviews",
+                                "/api/feedback/stats",
                                 "/api/files/download/**",
                                 "/api/public/files/**",
                                 "/uploads/**",

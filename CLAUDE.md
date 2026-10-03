@@ -18,10 +18,12 @@ This is a full-stack application consisting of:
 ### Building and Running
 - **Backend:** 
   - To run: `cd ResolveIT && ./mvnw spring-boot:run`
-  - The application defaults to port `8080`.
+  - **CRITICAL: The backend MUST run on port `8080`. DO NOT change this port.**
+  - The application is configured to use port `8080` by default.
 - **Frontend:**
   - To run: `cd "ResolveIT -Frontend" && npm start`
-  - To run on a specific port (if 3000 is occupied): `PORT=XXXX npm start`
+  - The frontend defaults to port `3000`.
+  - **CRITICAL: The frontend API configuration (`src/services/api.js`) MUST point to `http://localhost:8080/api`. DO NOT change this to any other port.**
 
 ### Database
 - Connection: MySQL (jdbc:mysql://localhost:3306/ResolveITDB)

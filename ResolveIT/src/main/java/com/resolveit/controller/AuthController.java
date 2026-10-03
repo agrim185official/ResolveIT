@@ -46,7 +46,8 @@ public class AuthController {
                 }
             }
 
-            return ResponseEntity.ok(new JwtAuthenticationResponse(token, role));
+            String username = user != null ? user.getUsername() : "";
+            return ResponseEntity.ok(new JwtAuthenticationResponse(token, role, username));
         } catch (org.springframework.security.authentication.BadCredentialsException e) {
             return ResponseEntity.status(org.springframework.http.HttpStatus.UNAUTHORIZED)
                     .body("Invalid username or password");

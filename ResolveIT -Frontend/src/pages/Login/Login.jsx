@@ -32,6 +32,12 @@ const Login = () => {
             const role = data.role || 'ROLE_USER';
             localStorage.setItem('role', role);
 
+            // Store username
+            const username = data.username || '';
+            if (username) {
+                localStorage.setItem('username', username);
+            }
+
             if (role === 'ROLE_ADMIN') {
                 navigate('/admin');
             } else if (role === 'ROLE_STAFF') {

@@ -35,7 +35,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchGrievances, createGrievance, deleteGrievance, updateGrievance, getComplaintTimeline, uploadAttachment, getAttachmentDownloadUrl } from '../../services/api';
+import FeedbackForm from '../../components/FeedbackForm';
+import api from '../../services/api';
 import './Dashboard.css';
+import './FeedbackDisplay.css';
 
 /**
  * STATE MANAGEMENT:
@@ -67,6 +70,15 @@ const Dashboard = () => {
     const [uploadFiles, setUploadFiles] = useState([]);
     const [uploadLoading, setUploadLoading] = useState(false);
 
+    // Feedback State
+    const [feedbackEligibility, setFeedbackEligibility] = useState({});
+    const [existingFeedbacks, setExistingFeedbacks] = useState({});
+    const [showFeedbackForm, setShowFeedbackForm] = useState({}); // New state to toggle form
+
+    const toggleFeedbackForm = (id) => {
+        setShowFeedbackForm(prev => ({ ...prev, [id]: !prev[id] }));
+    };
+
 
 
     useEffect(() => {
@@ -87,6 +99,48 @@ const Dashboard = () => {
             try {
                 const data = await fetchGrievances();
                 setGrievances(data);
+
+                // Check feedback eligibility for resolved/closed complaints
+                const eligibility = {};
+                const feedbacks = {};
+
+                for (const grievance of data) {
+                    if (grievance.status === 'RESOLVED' || grievance.status === 'CLOSED') {
+                        try {
+                            // Check if feedback already exists
+                            const feedbackResponse = await api.get(`/feedback/complaint/${grievance.id}`);
+
+                            // If response has hasFeedback: false, no feedback exists yet
+                            if (feedbackResponse.data.hasFeedback === false) {
+                                // Check if user can submit feedback
+                                const canSubmitResponse = await api.get(`/feedback/can-submit/${grievance.id}`);
+                                eligibility[grievance.id] = canSubmitResponse.data.canSubmit;
+                            }
+                            // If response has an id property, it's a FeedbackResponse - feedback exists
+                            else if (feedbackResponse.data.id) {
+                                feedbacks[grievance.id] = feedbackResponse.data;
+                                eligibility[grievance.id] = false;
+                            }
+                            // Fallback: check eligibility anyway
+                            else {
+                                const canSubmitResponse = await api.get(`/feedback/can-submit/${grievance.id}`);
+                                eligibility[grievance.id] = canSubmitResponse.data.canSubmit;
+                            }
+                        } catch (err) {
+                            console.error(`Failed to check feedback for complaint ${grievance.id}:`, err);
+                            // On error, still try to check eligibility
+                            try {
+                                const canSubmitResponse = await api.get(`/feedback/can-submit/${grievance.id}`);
+                                eligibility[grievance.id] = canSubmitResponse.data.canSubmit;
+                            } catch (eligibilityErr) {
+                                eligibility[grievance.id] = false;
+                            }
+                        }
+                    }
+                }
+
+                setFeedbackEligibility(eligibility);
+                setExistingFeedbacks(feedbacks);
                 setLoading(false);
             } catch (error) {
                 console.error("Failed to fetch", error);
@@ -243,6 +297,40 @@ const Dashboard = () => {
         }
     };
 
+    const handleFeedbackSubmitted = async () => {
+        // Reload grievances after feedback is submitted
+        try {
+            const updatedList = await fetchGrievances();
+            setGrievances(updatedList);
+
+            // Update feedback eligibility
+            const eligibility = {};
+            const feedbacks = {};
+
+            for (const grievance of updatedList) {
+                if (grievance.status === 'RESOLVED' || grievance.status === 'CLOSED') {
+                    try {
+                        const feedbackResponse = await api.get(`/feedback/complaint/${grievance.id}`);
+                        if (feedbackResponse.data.hasFeedback === false) {
+                            const canSubmitResponse = await api.get(`/feedback/can-submit/${grievance.id}`);
+                            eligibility[grievance.id] = canSubmitResponse.data.canSubmit;
+                        } else {
+                            feedbacks[grievance.id] = feedbackResponse.data;
+                            eligibility[grievance.id] = false;
+                        }
+                    } catch (err) {
+                        eligibility[grievance.id] = false;
+                    }
+                }
+            }
+
+            setFeedbackEligibility(eligibility);
+            setExistingFeedbacks(feedbacks);
+        } catch (err) {
+            console.error('Failed to reload after feedback:', err);
+        }
+    };
+
     if (loading) return <div className="dashboard-container"><p>Loading...</p></div>;
 
     return (
@@ -250,7 +338,7 @@ const Dashboard = () => {
 
             <header className="dashboard-header">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                    <h1>Dashboard</h1>
+                    <h1>Dashboard - Welcome, {localStorage.getItem('username') || 'User'}</h1>
                     {localStorage.getItem('role') === 'ROLE_STAFF' && (
                         <button
                             onClick={() => navigate('/staff')}
@@ -421,8 +509,51 @@ const Dashboard = () => {
                                     </div>
                                 )}
 
+                                {/* Feedback Section - Show for RESOLVED/CLOSED complaints */}
+                                {(item.status === 'RESOLVED' || item.status === 'CLOSED') && (
+                                    <>
+                                        {existingFeedbacks[item.id] ? (
+                                            <div className="feedback-display">
+                                                <div className="feedback-header">
+                                                    <span className="feedback-label">✅ Your Feedback</span>
+                                                    <div className="feedback-stars">
+                                                        {[...Array(5)].map((_, i) => (
+                                                            <span key={i} className={i < existingFeedbacks[item.id].rating ? 'star-filled' : 'star-empty'}>
+                                                                ★
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                                {existingFeedbacks[item.id].comment && (
+                                                    <p className="feedback-comment">"{existingFeedbacks[item.id].comment}"</p>
+                                                )}
+                                                <small className="feedback-date">
+                                                    Submitted on {new Date(existingFeedbacks[item.id].createdAt).toLocaleDateString()}
+                                                </small>
+                                            </div>
+                                        ) : feedbackEligibility[item.id] && showFeedbackForm[item.id] && (
+                                            <FeedbackForm
+                                                complaintId={item.id}
+                                                complaintTitle={item.title}
+                                                onFeedbackSubmitted={handleFeedbackSubmitted}
+                                            />
+                                        )}
+                                    </>
+                                )}
 
                                 <div className="card-actions">
+                                    {/* Feedback Button - Visible for RESOLVED/CLOSED and eligible */}
+                                    {(item.status === 'RESOLVED' || item.status === 'CLOSED') &&
+                                     feedbackEligibility[item.id] && (
+                                        <button
+                                            className="btn-icon feedback-btn"
+                                            onClick={() => toggleFeedbackForm(item.id)}
+                                            title="Give Feedback"
+                                        >
+                                            ⭐ Feedback
+                                        </button>
+                                    )}
+
                                     <button className="btn-icon edit-btn" onClick={() => openEditModal(item)} title="Edit">
                                         ✏️ Edit
                                     </button>
