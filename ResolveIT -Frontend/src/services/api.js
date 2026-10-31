@@ -16,8 +16,7 @@
  * 4. Notifications: User and admin notifications
  * 5. Staff: Applications, assignments, dashboard data
  * 6. Reports: Analytics and exports (CSV/PDF)
- * 
- * Backend URL: http://localhost:8081/api
+ * Backend URL: http://localhost:8080/api
  */
 import axios from 'axios';
 
@@ -174,8 +173,8 @@ export const getAttachments = async (complaintId) => {
   }
 };
 
-export const getAttachmentDownloadUrl = (attachmentId) => {
-  return `${API_BASE_URL}/complaints/attachments/${attachmentId}`;
+export const getAttachmentDownloadUrl = (fileNameOrId) => {
+  return `${API_BASE_URL}/public/files/${fileNameOrId}`;
 };
 
 export const getComplaintTimeline = async (complaintId) => {
@@ -428,6 +427,62 @@ export const rejectStaffApplication = async (id, reason) => {
 export const getStaffList = async () => {
   try {
     return await apiClient.get('/staff-applications/staff-list');
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ==================== Feedback Endpoints ====================
+
+// Submit feedback for a resolved complaint
+export const submitFeedback = async (feedbackData) => {
+  try {
+    return await apiClient.post('/feedback/submit', feedbackData);
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Get feedback for a specific complaint
+export const getFeedbackByComplaint = async (complaintId) => {
+  try {
+    return await apiClient.get(`/feedback/complaint/${complaintId}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Check if user can submit feedback
+export const canSubmitFeedback = async (complaintId) => {
+  try {
+    return await apiClient.get(`/feedback/can-submit/${complaintId}`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Get positive reviews for homepage
+export const getPositiveReviews = async () => {
+  try {
+    return await apiClient.get('/feedback/positive-reviews');
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Get feedback statistics
+export const getFeedbackStats = async () => {
+  try {
+    return await apiClient.get('/feedback/stats');
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Get all feedbacks by current user
+export const getMyFeedbacks = async () => {
+  try {
+    return await apiClient.get('/feedback/my-feedbacks');
   } catch (error) {
     throw error;
   }

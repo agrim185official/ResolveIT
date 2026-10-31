@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAssignedGrievances, reportComplaintResolved, getAttachmentDownloadUrl, requestStatusChange } from '../../services/api';
+import { getAssignedGrievances, requestStatusChange } from '../../services/api';
 import './StaffDashboard.css';
 
 const StaffDashboard = () => {
+    const navigate = useNavigate();
     const [grievances, setGrievances] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const navigate = useNavigate();
 
     const [detailsModal, setDetailsModal] = useState({ open: false, grievance: null });
     const [statusModal, setStatusModal] = useState({ open: false, grievance: null, requestedStatus: '', comment: '' });
@@ -17,7 +17,7 @@ const StaffDashboard = () => {
     }, []);
 
     const handleDownload = (fileName) => {
-        const fullUrl = `http://localhost:8081/api/public/files/${fileName}`;
+        const fullUrl = `http://localhost:8080/api/public/files/${fileName}`;
         window.open(fullUrl, '_blank');
     };
 
@@ -35,27 +35,7 @@ const StaffDashboard = () => {
         }
     };
 
-    const handleReportResolved = async (grievance) => {
-        if (grievance.status !== 'UNDER_REVIEW') {
-            alert('Only complaints under review can be reported as resolved.');
-            return;
-        }
 
-        const confirmed = window.confirm(`Report "${grievance.title}" as RESOLVED?\n\nThis will notify the admin for approval. The status will be updated by the admin.`);
-        if (!confirmed) return;
-
-        try {
-            setLoading(true);
-            await reportComplaintResolved(grievance.id);
-            alert('✅ Complaint reported as resolved. Admin has been notified for approval.');
-            await loadAssignedGrievances();
-        } catch (err) {
-            console.error('Failed to report as resolved:', err);
-            alert('Failed to report as resolved: ' + (err.response?.data?.message || err.message));
-        } finally {
-            setLoading(false);
-        }
-    };
 
     // Get valid next statuses based on current status
     const getValidNextStatuses = (currentStatus) => {
@@ -89,12 +69,6 @@ const StaffDashboard = () => {
         } finally {
             setLoading(false);
         }
-    };
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('userRole');
-        navigate('/login');
     };
 
     const getStatusBadgeClass = (status) => {

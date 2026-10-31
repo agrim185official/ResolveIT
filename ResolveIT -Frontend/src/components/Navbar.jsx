@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useTheme } from '../context/ThemeContext';
 import {
     getNotifications, getUnreadNotificationCount, markNotificationAsRead, markAllNotificationsAsRead,
@@ -16,7 +15,6 @@ const Navbar = () => {
     const [token, setToken] = useState(localStorage.getItem('token'));
     const [role, setRole] = useState(localStorage.getItem('role'));
     const isAdmin = role === 'ROLE_ADMIN';
-    const isStaff = role === 'ROLE_STAFF';
     // const isUser = !isAdmin && !isStaff; // Not strictly needed but helpful for context
 
     // Theme toggle

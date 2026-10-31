@@ -233,7 +233,7 @@ public class ComplaintService {
                     attResponse.setId(att.getId());
                     attResponse.setFileName(att.getFileName());
                     attResponse.setFileType(att.getFileType());
-                    attResponse.setDownloadUrl("/api/complaints/attachments/" + att.getId());
+                    attResponse.setDownloadUrl("/api/public/files/" + att.getFileName());
                     return attResponse;
                 })
                 .collect(Collectors.toList());

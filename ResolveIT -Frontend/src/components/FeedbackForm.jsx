@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import api from '../services/api';
 import './FeedbackForm.css';
 
-const FeedbackForm = ({ complaintId, complaintTitle, onFeedbackSubmitted }) => {
+const FeedbackForm = ({ complaintId, complaintTitle, onFeedbackSubmitted, onCancel, inModal = false }) => {
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
   const [comment, setComment] = useState('');
@@ -33,7 +33,7 @@ const FeedbackForm = ({ complaintId, complaintTitle, onFeedbackSubmitted }) => {
         if (onFeedbackSubmitted) {
           onFeedbackSubmitted();
         }
-      }, 2000);
+      }, 1500);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to submit feedback');
       setIsSubmitting(false);
@@ -42,7 +42,7 @@ const FeedbackForm = ({ complaintId, complaintTitle, onFeedbackSubmitted }) => {
 
   if (success) {
     return (
-      <div className="feedback-success">
+      <div className={`feedback-success ${inModal ? 'in-modal' : ''}`}>
         <div className="success-icon">✓</div>
         <h3>Thank You for Your Feedback!</h3>
         <p>Your review helps us improve our service.</p>
@@ -51,8 +51,8 @@ const FeedbackForm = ({ complaintId, complaintTitle, onFeedbackSubmitted }) => {
   }
 
   return (
-    <div className="feedback-form-container">
-      <h3>Rate Your Experience</h3>
+    <div className={`feedback-form-container ${inModal ? 'in-modal' : ''}`}>
+      {!inModal && <h3>Rate Your Experience</h3>}
       <p className="feedback-subtitle">
         How satisfied are you with the resolution of: <strong>{complaintTitle}</strong>?
       </p>
@@ -66,6 +66,9 @@ const FeedbackForm = ({ complaintId, complaintTitle, onFeedbackSubmitted }) => {
               onClick={() => setRating(star)}
               onMouseEnter={() => setHoveredRating(star)}
               onMouseLeave={() => setHoveredRating(0)}
+              role="button"
+              tabIndex={0}
+              aria-label={`${star} star`}
             >
               ★
             </span>
@@ -97,13 +100,25 @@ const FeedbackForm = ({ complaintId, complaintTitle, onFeedbackSubmitted }) => {
 
         {error && <div className="error-message">{error}</div>}
 
-        <button
-          type="submit"
-          className="btn btn-primary"
-          disabled={isSubmitting || rating === 0}
-        >
-          {isSubmitting ? 'Submitting...' : 'Submit Feedback'}
-        </button>
+        <div className="feedback-form-actions">
+          {onCancel && (
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={onCancel}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </button>
+          )}
+          <button
+            type="submit"
+            className="btn btn-primary btn-feedback-submit"
+            disabled={isSubmitting || rating === 0}
+          >
+            {isSubmitting ? 'Submitting...' : 'Submit Feedback'}
+          </button>
+        </div>
       </form>
     </div>
   );

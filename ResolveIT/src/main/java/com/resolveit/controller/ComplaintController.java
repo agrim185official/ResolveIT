@@ -206,6 +206,18 @@ public class ComplaintController {
         }
     }
 
+    @GetMapping("/attachments/{attachmentId}")
+    public ResponseEntity<?> downloadAttachment(@PathVariable Long attachmentId) {
+        try {
+            com.resolveit.model.Attachment attachment = attachmentService.getAttachment(attachmentId);
+            return ResponseEntity.status(org.springframework.http.HttpStatus.FOUND)
+                    .location(java.net.URI.create("/api/public/files/" + attachment.getFileName()))
+                    .build();
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body(Map.of("message", e.getMessage()));
+        }
+    }
+
     // ==================== Timeline Endpoints ====================
 
     @GetMapping("/{id}/timeline")

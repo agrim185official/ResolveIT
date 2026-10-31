@@ -115,7 +115,8 @@ public class FeedbackService {
     public java.util.Map<String, Object> getFeedbackStats() {
         java.util.Map<String, Object> stats = new java.util.HashMap<>();
         stats.put("totalFeedbacks", feedbackRepository.count());
-        stats.put("averageRating", feedbackRepository.getAverageRating());
+        Double avg = feedbackRepository.getAverageRating();
+        stats.put("averageRating", avg != null ? Math.round(avg * 10.0) / 10.0 : 0.0);
         return stats;
     }
 

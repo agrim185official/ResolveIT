@@ -70,13 +70,35 @@ const Dashboard = () => {
     const [uploadFiles, setUploadFiles] = useState([]);
     const [uploadLoading, setUploadLoading] = useState(false);
 
-    // Feedback State
+    // Feedback State & Modal
     const [feedbackEligibility, setFeedbackEligibility] = useState({});
     const [existingFeedbacks, setExistingFeedbacks] = useState({});
-    const [showFeedbackForm, setShowFeedbackForm] = useState({}); // New state to toggle form
+    const [feedbackModal, setFeedbackModal] = useState({
+        open: false,
+        complaintId: null,
+        complaintTitle: '',
+        complaintNumber: '',
+        existingFeedback: null
+    });
 
-    const toggleFeedbackForm = (id) => {
-        setShowFeedbackForm(prev => ({ ...prev, [id]: !prev[id] }));
+    const openFeedbackModal = (item) => {
+        setFeedbackModal({
+            open: true,
+            complaintId: item.id,
+            complaintTitle: item.title,
+            complaintNumber: item.complaintNumber || '',
+            existingFeedback: existingFeedbacks[item.id] || null
+        });
+    };
+
+    const closeFeedbackModal = () => {
+        setFeedbackModal({
+            open: false,
+            complaintId: null,
+            complaintTitle: '',
+            complaintNumber: '',
+            existingFeedback: null
+        });
     };
 
 
@@ -109,29 +131,33 @@ const Dashboard = () => {
                         try {
                             // Check if feedback already exists
                             const feedbackResponse = await api.get(`/feedback/complaint/${grievance.id}`);
+                            const feedbackData = feedbackResponse?.data !== undefined ? feedbackResponse.data : feedbackResponse;
 
                             // If response has hasFeedback: false, no feedback exists yet
-                            if (feedbackResponse.data.hasFeedback === false) {
+                            if (feedbackData && feedbackData.hasFeedback === false) {
                                 // Check if user can submit feedback
                                 const canSubmitResponse = await api.get(`/feedback/can-submit/${grievance.id}`);
-                                eligibility[grievance.id] = canSubmitResponse.data.canSubmit;
+                                const canSubmitData = canSubmitResponse?.data !== undefined ? canSubmitResponse.data : canSubmitResponse;
+                                eligibility[grievance.id] = !!canSubmitData?.canSubmit;
                             }
                             // If response has an id property, it's a FeedbackResponse - feedback exists
-                            else if (feedbackResponse.data.id) {
-                                feedbacks[grievance.id] = feedbackResponse.data;
+                            else if (feedbackData && feedbackData.id) {
+                                feedbacks[grievance.id] = feedbackData;
                                 eligibility[grievance.id] = false;
                             }
                             // Fallback: check eligibility anyway
                             else {
                                 const canSubmitResponse = await api.get(`/feedback/can-submit/${grievance.id}`);
-                                eligibility[grievance.id] = canSubmitResponse.data.canSubmit;
+                                const canSubmitData = canSubmitResponse?.data !== undefined ? canSubmitResponse.data : canSubmitResponse;
+                                eligibility[grievance.id] = !!canSubmitData?.canSubmit;
                             }
                         } catch (err) {
                             console.error(`Failed to check feedback for complaint ${grievance.id}:`, err);
                             // On error, still try to check eligibility
                             try {
                                 const canSubmitResponse = await api.get(`/feedback/can-submit/${grievance.id}`);
-                                eligibility[grievance.id] = canSubmitResponse.data.canSubmit;
+                                const canSubmitData = canSubmitResponse?.data !== undefined ? canSubmitResponse.data : canSubmitResponse;
+                                eligibility[grievance.id] = !!canSubmitData?.canSubmit;
                             } catch (eligibilityErr) {
                                 eligibility[grievance.id] = false;
                             }
@@ -298,6 +324,7 @@ const Dashboard = () => {
     };
 
     const handleFeedbackSubmitted = async () => {
+        closeFeedbackModal();
         // Reload grievances after feedback is submitted
         try {
             const updatedList = await fetchGrievances();
@@ -311,11 +338,15 @@ const Dashboard = () => {
                 if (grievance.status === 'RESOLVED' || grievance.status === 'CLOSED') {
                     try {
                         const feedbackResponse = await api.get(`/feedback/complaint/${grievance.id}`);
-                        if (feedbackResponse.data.hasFeedback === false) {
+                        const feedbackData = feedbackResponse?.data !== undefined ? feedbackResponse.data : feedbackResponse;
+                        if (feedbackData && feedbackData.hasFeedback === false) {
                             const canSubmitResponse = await api.get(`/feedback/can-submit/${grievance.id}`);
-                            eligibility[grievance.id] = canSubmitResponse.data.canSubmit;
+                            const canSubmitData = canSubmitResponse?.data !== undefined ? canSubmitResponse.data : canSubmitResponse;
+                            eligibility[grievance.id] = !!canSubmitData?.canSubmit;
+                        } else if (feedbackData && feedbackData.id) {
+                            feedbacks[grievance.id] = feedbackData;
+                            eligibility[grievance.id] = false;
                         } else {
-                            feedbacks[grievance.id] = feedbackResponse.data;
                             eligibility[grievance.id] = false;
                         }
                     } catch (err) {
@@ -510,48 +541,52 @@ const Dashboard = () => {
                                 )}
 
                                 {/* Feedback Section - Show for RESOLVED/CLOSED complaints */}
-                                {(item.status === 'RESOLVED' || item.status === 'CLOSED') && (
-                                    <>
-                                        {existingFeedbacks[item.id] ? (
-                                            <div className="feedback-display">
-                                                <div className="feedback-header">
-                                                    <span className="feedback-label">✅ Your Feedback</span>
-                                                    <div className="feedback-stars">
-                                                        {[...Array(5)].map((_, i) => (
-                                                            <span key={i} className={i < existingFeedbacks[item.id].rating ? 'star-filled' : 'star-empty'}>
-                                                                ★
-                                                            </span>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                {existingFeedbacks[item.id].comment && (
-                                                    <p className="feedback-comment">"{existingFeedbacks[item.id].comment}"</p>
-                                                )}
-                                                <small className="feedback-date">
-                                                    Submitted on {new Date(existingFeedbacks[item.id].createdAt).toLocaleDateString()}
-                                                </small>
+                                {(item.status === 'RESOLVED' || item.status === 'CLOSED') && existingFeedbacks[item.id] && (
+                                    <div
+                                        className="feedback-display"
+                                        onClick={() => openFeedbackModal(item)}
+                                        style={{ cursor: 'pointer' }}
+                                        title="Click to view feedback details"
+                                    >
+                                        <div className="feedback-header">
+                                            <span className="feedback-label">✅ Your Feedback</span>
+                                            <div className="feedback-stars">
+                                                {[...Array(5)].map((_, i) => (
+                                                    <span key={i} className={i < existingFeedbacks[item.id].rating ? 'star-filled' : 'star-empty'}>
+                                                        ★
+                                                    </span>
+                                                ))}
                                             </div>
-                                        ) : feedbackEligibility[item.id] && showFeedbackForm[item.id] && (
-                                            <FeedbackForm
-                                                complaintId={item.id}
-                                                complaintTitle={item.title}
-                                                onFeedbackSubmitted={handleFeedbackSubmitted}
-                                            />
+                                        </div>
+                                        {existingFeedbacks[item.id].comment && (
+                                            <p className="feedback-comment">"{existingFeedbacks[item.id].comment}"</p>
                                         )}
-                                    </>
+                                        <small className="feedback-date">
+                                            Submitted on {new Date(existingFeedbacks[item.id].createdAt).toLocaleDateString()}
+                                        </small>
+                                    </div>
                                 )}
 
                                 <div className="card-actions">
-                                    {/* Feedback Button - Visible for RESOLVED/CLOSED and eligible */}
-                                    {(item.status === 'RESOLVED' || item.status === 'CLOSED') &&
-                                     feedbackEligibility[item.id] && (
-                                        <button
-                                            className="btn-icon feedback-btn"
-                                            onClick={() => toggleFeedbackForm(item.id)}
-                                            title="Give Feedback"
-                                        >
-                                            ⭐ Feedback
-                                        </button>
+                                    {/* Feedback Button - Resembles Edit, Timeline, Delete */}
+                                    {(item.status === 'RESOLVED' || item.status === 'CLOSED') && (
+                                        feedbackEligibility[item.id] ? (
+                                            <button
+                                                className="btn-icon feedback-btn"
+                                                onClick={() => openFeedbackModal(item)}
+                                                title="Give Feedback"
+                                            >
+                                                ⭐ Feedback
+                                            </button>
+                                        ) : existingFeedbacks[item.id] ? (
+                                            <button
+                                                className="btn-icon feedback-btn submitted"
+                                                onClick={() => openFeedbackModal(item)}
+                                                title="View Feedback Details"
+                                            >
+                                                ⭐ Feedback
+                                            </button>
+                                        ) : null
                                     )}
 
                                     <button className="btn-icon edit-btn" onClick={() => openEditModal(item)} title="Edit">
@@ -732,6 +767,71 @@ const Dashboard = () => {
                                 </button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Feedback Modal Dialog */}
+            {feedbackModal.open && (
+                <div className="modal-overlay" onClick={closeFeedbackModal}>
+                    <div className="modal-content feedback-modal" onClick={e => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3>{feedbackModal.existingFeedback ? '⭐ Feedback Details' : '⭐ Rate Your Experience'}</h3>
+                            <button className="modal-close" onClick={closeFeedbackModal} title="Close">×</button>
+                        </div>
+                        <div className="modal-body">
+                            {feedbackModal.existingFeedback ? (
+                                <div className="feedback-modal-view">
+                                    <div className="feedback-modal-target">
+                                        {feedbackModal.complaintNumber && (
+                                            <span className="feedback-target-badge">{feedbackModal.complaintNumber}</span>
+                                        )}
+                                        <h4>{feedbackModal.complaintTitle}</h4>
+                                    </div>
+                                    <div className="feedback-modal-rating">
+                                        <div className="star-rating static">
+                                            {[1, 2, 3, 4, 5].map((star) => (
+                                                <span
+                                                    key={star}
+                                                    className={`star ${star <= feedbackModal.existingFeedback.rating ? 'active' : ''}`}
+                                                >
+                                                    ★
+                                                </span>
+                                            ))}
+                                        </div>
+                                        <span className="rating-label">
+                                            {feedbackModal.existingFeedback.rating === 5 && 'Excellent (5/5)'}
+                                            {feedbackModal.existingFeedback.rating === 4 && 'Very Good (4/5)'}
+                                            {feedbackModal.existingFeedback.rating === 3 && 'Good (3/5)'}
+                                            {feedbackModal.existingFeedback.rating === 2 && 'Fair (2/5)'}
+                                            {feedbackModal.existingFeedback.rating === 1 && 'Poor (1/5)'}
+                                        </span>
+                                    </div>
+                                    {feedbackModal.existingFeedback.comment && (
+                                        <div className="feedback-modal-comment-box">
+                                            <label>Your Comment</label>
+                                            <p className="feedback-modal-comment">"{feedbackModal.existingFeedback.comment}"</p>
+                                        </div>
+                                    )}
+                                    <div className="feedback-modal-meta">
+                                        <span>Submitted on {new Date(feedbackModal.existingFeedback.createdAt).toLocaleDateString()}</span>
+                                    </div>
+                                    <div className="feedback-form-actions">
+                                        <button type="button" className="btn btn-secondary" onClick={closeFeedbackModal}>
+                                            Close
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <FeedbackForm
+                                    complaintId={feedbackModal.complaintId}
+                                    complaintTitle={feedbackModal.complaintTitle}
+                                    onFeedbackSubmitted={handleFeedbackSubmitted}
+                                    onCancel={closeFeedbackModal}
+                                    inModal={true}
+                                />
+                            )}
+                        </div>
                     </div>
                 </div>
             )}

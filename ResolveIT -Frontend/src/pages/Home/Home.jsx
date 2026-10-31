@@ -26,7 +26,8 @@ const Home = () => {
     const fetchTestimonials = async () => {
       try {
         const response = await api.get('/feedback/positive-reviews');
-        setTestimonials(response.data.slice(0, 3)); // Show top 3
+        const reviews = Array.isArray(response) ? response : (response?.data || []);
+        setTestimonials(reviews.slice(0, 3)); // Show top 3
       } catch (error) {
         console.error('Failed to fetch testimonials:', error);
       }
@@ -36,8 +37,9 @@ const Home = () => {
     const fetchStats = async () => {
       try {
         const response = await api.get('/feedback/stats');
-        if (response && response.data) {
-          setStats(response.data);
+        const statsData = response?.data !== undefined ? response.data : response;
+        if (statsData) {
+          setStats(statsData);
         }
       } catch (error) {
         console.error('Failed to fetch stats:', error);
@@ -118,7 +120,11 @@ const Home = () => {
           <span className="stat-label">Issues Resolved</span>
         </div>
         <div className="stat-item">
-          <span className="stat-number">{stats && stats.averageRating !== undefined ? stats.averageRating.toFixed(1) : '4.8'}/5</span>
+          <span className="stat-number">
+            {stats && stats.averageRating != null && !isNaN(stats.averageRating)
+              ? Number(stats.averageRating).toFixed(1)
+              : '4.8'}/5
+          </span>
           <span className="stat-label">User Rating</span>
         </div>
         <div className="stat-item">
